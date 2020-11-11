@@ -1,13 +1,14 @@
 import nltk
 nltk.download('stopwords')
 from nltk.corpus import stopwords
+nltk.download('punkt')
 import pandas as pd
 import string
 
 def read_data():
     print("====> Reading data")
-    df = pd.read_csv('training.1600000.processed.noemoticon.csv',encoding = "ISO-8859-1")
-    df.columns =['sentiment', 'number', 'date', 'query', 'user', 'tweet']
+    df = pd.read_csv('new_data.csv',encoding = "ISO-8859-1")
+    # df.columns =['tweet','sentiment']
     return df
 
 def clean_doc(doc):
