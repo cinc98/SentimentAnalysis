@@ -1,0 +1,13 @@
+body{
+    margin: 0;
+    padding: 0;
+    background-color: skyblue;
+    
+}
+.row{
+    height: calc(calc(100vh - 56px)/2);
+}
+
+.my-form{
+    width: 100%;
+}

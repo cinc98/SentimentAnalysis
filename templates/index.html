@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+
+
+{% block head %}
+<nav class="navbar navbar-light bg-primary">
+    <a class="navbar-brand text-white mb-0 font-weight-bold h1" href="/">Sentiment Analysis</a>
+  </nav>
+{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div class="row align-items-center">
+        <form class="my-form" action="/predict" method="POST">
+            <div class="col">
+                <div class="input-group my-input mb-3">
+                    <input type="text" class="form-control" name="sentence" placeholder="Enter a sentece..." aria-label="Recipient's username" aria-describedby="button-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary text-white bg-primary" type="submit" id="button-addon2">Predict</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            {% if predict %}
+                {% if predict == '1' %}
+                    <img src="{{ url_for('static', filename='images/happy.jpeg') }}" alt="">
+                {% else %}
+                    <img src="{{ url_for('static', filename='images/sad.jpeg') }}" alt="">
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+  </div>
+{% endblock %}
+
