@@ -8,6 +8,10 @@ from keras.preprocessing.sequence import pad_sequences
 
 app = Flask(__name__)
 
+
+model = keras.models.load_model("Deep_learning/CNN.h5")
+tokenizer = joblib.load("Deep_learning/tokenizer.joblib")
+
 @app.route('/predict', methods = ['POST'])
 def modelPredict():
     sentence = request.form['sentence']
@@ -39,8 +43,5 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 if __name__ == '__main__':
-    
-    model = keras.models.load_model("Deep_learning/CNN.h5")
-    tokenizer = joblib.load("Deep_learning/tokenizer.joblib")
     app.run(debug=True)
 
