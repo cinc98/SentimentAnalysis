@@ -1,14 +1,26 @@
 from flask import Flask, request, render_template, url_for
 import os
 import random 
+import keras 
+import joblib
+import tensorflow as tf
+from keras.preprocessing.sequence import pad_sequences
+
 app = Flask(__name__)
 
 @app.route('/predict', methods = ['POST'])
 def modelPredict():
+    config = tf.compat.v1.ConfigProto(
+        device_count = {'GPU': 0}
+    )
+    sess = tf.compat.v1.Session(config=config)
     sentence = request.form['sentence']
-    # Model predicts sentiment for text
-    
-    return render_template('index.html', sentence = sentence, predict = str(random.randint(0, 1)))
+
+    sequences = tokenizer.texts_to_sequences([sentence])
+    padded_sequences = pad_sequences(sequences, maxlen=46)
+    predict = model.predict(padded_sequences)
+    print(predict)
+    return render_template('index.html', sentence = sentence, predict = predict[0][0])
 
 
 @app.route('/')
@@ -30,5 +42,11 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 if __name__ == '__main__':
+    config = tf.compat.v1.ConfigProto(
+        device_count = {'GPU': -1}
+    )
+    sess = tf.compat.v1.Session(config=config)
+    model = keras.models.load_model("Deep_learning/CNN.h5")
+    tokenizer = joblib.load("Deep_learning/tokenizer.joblib")
     app.run(debug=True)
 
