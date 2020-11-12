@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col text-center">
             {% if predict %}
-                {% if predict == '1' %}
+                {% if predict > 0.5 %}
                     <img src="{{ url_for('static', filename='images/happy.jpeg') }}" alt="">
                 {% else %}
                     <img src="{{ url_for('static', filename='images/sad.jpeg') }}" alt="">

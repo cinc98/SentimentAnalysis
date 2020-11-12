@@ -10,16 +10,13 @@ app = Flask(__name__)
 
 @app.route('/predict', methods = ['POST'])
 def modelPredict():
-    config = tf.compat.v1.ConfigProto(
-        device_count = {'GPU': 0}
-    )
-    sess = tf.compat.v1.Session(config=config)
     sentence = request.form['sentence']
 
     sequences = tokenizer.texts_to_sequences([sentence])
     padded_sequences = pad_sequences(sequences, maxlen=46)
-    predict = model.predict(padded_sequences)
-    print(predict)
+    with tf.device('/cpu'):
+        predict = model.predict(padded_sequences)
+        print(predict)
     return render_template('index.html', sentence = sentence, predict = predict[0][0])
 
 
@@ -42,10 +39,7 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 if __name__ == '__main__':
-    config = tf.compat.v1.ConfigProto(
-        device_count = {'GPU': -1}
-    )
-    sess = tf.compat.v1.Session(config=config)
+    
     model = keras.models.load_model("Deep_learning/CNN.h5")
     tokenizer = joblib.load("Deep_learning/tokenizer.joblib")
     app.run(debug=True)

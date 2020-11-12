@@ -2,5 +2,5 @@ import requests
 
 BASE = "http://127.0.0.1:5000/"
 
-response = requests.get(BASE + "model/asgasgda")
-print(response.json())
+response = requests.post(BASE + "/predict",data={"sentence":"good"})
+print(response)
