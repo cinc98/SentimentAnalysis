@@ -5,12 +5,20 @@ import keras
 import joblib
 import tensorflow as tf
 from keras.preprocessing.sequence import pad_sequences
+from zipfile import ZipFile 
 
 app = Flask(__name__)
 
+  
+# specifying the zip file name 
+file_name = "Deep_learning/models.zip"
+  
+# opening the zip file in READ mode 
+with ZipFile(file_name, 'r') as zip: 
+    zip.extract('CNN_best_model.h5')
 
-model = keras.models.load_model("Deep_learning/CNN.h5")
-tokenizer = joblib.load("Deep_learning/tokenizer.joblib")
+tokenizer = joblib.load("Deep_learning/tokenizer_full.joblib")
+model = keras.models.load_model("CNN_best_model.h5")
 
 @app.route('/predict', methods = ['POST'])
 def modelPredict():
